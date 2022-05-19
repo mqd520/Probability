@@ -1,2 +1,12 @@
 /Code/Probability/bin
 /Code/Probability/obj
+/Code/Common/Common.csproj.user
+/Code/packages
+/Code/Common/obj
+/Code/Common/bin
+/Code/.vs/Probability/v14/.suo
+/Code/Probability.Service/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/Code/Probability.Service/obj/Debug/Probability.Service.csprojResolveAssemblyReference.cache
+/Code/Probability.Service/bin
+/Code/Probability.Service/obj
+/Code/Probability.Service/Probability.Service.csproj.user
