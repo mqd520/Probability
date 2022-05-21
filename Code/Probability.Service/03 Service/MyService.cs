@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 using Common;
 using Probability.Service._00_Def;
@@ -12,18 +13,26 @@ namespace Probability.Service._03_Service
 {
     public class MyService
     {
+        private static Timer _t = new Timer();
+
         public static void Start()
         {
+            _t.Interval = MyConfig.TaskInterval;
+            _t.Elapsed += _t_Elapsed;
+            _t.AutoReset = false;
+
             ConsoleHelper.WriteLine(
                 ELogCategory.Info,
                 string.Format("Probability Task Start"),
                 true
             );
-            Task.Factory.StartNew(TaskStart);
+            _t.Start();
         }
 
-        public static void TaskStart()
+        private static void _t_Elapsed(object sender, ElapsedEventArgs e)
         {
+            _t.Stop();
+
             try
             {
                 ConsoleHelper.WriteLine(
@@ -109,8 +118,7 @@ namespace Probability.Service._03_Service
             finally
             {
                 Console.WriteLine("");
-                System.Threading.Thread.Sleep(MyConfig.TaskInterval);
-                TaskStart();
+                _t.Start();
             }
         }
 
