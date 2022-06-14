@@ -25,6 +25,7 @@ namespace Probability.Winform
             label8.Text = "";
             label10.Text = "";
             label12.Text = "";
+            label17.Text = "";
 
             dateTimePicker1.Format = DateTimePickerFormat.Custom;
             dateTimePicker1.CustomFormat = "yyyy-MM-dd HH:mm:ss";
@@ -103,6 +104,59 @@ namespace Probability.Winform
             if (arr.Length >= 4)
             {
                 label12.Text = (arr[4] * 100) + "%";
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                double d = 0;
+                bool b = double.TryParse(textBox1.Text.Trim(), out d);
+                if (b)
+                {
+                    if (d < 0)
+                    {
+                        MessageBox.Show("请输入高于0的浮点数!", Text, MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        return;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("请输入正确的浮点数!", Text, MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    return;
+                }
+
+                double d2 = 0;
+                bool b2 = double.TryParse(textBox2.Text.Trim(), out d2);
+                if (b2)
+                {
+                    if (d2 > 1)
+                    {
+                        MessageBox.Show("请输入不超过1的浮点数!", Text, MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        return;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("请输入正确的浮点数!", Text, MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    return;
+                }
+
+                IList<ProbabilityRecords> ls = new List<ProbabilityRecords>();
+                using (var db = SqlSugarTool.GetDb())
+                {
+                    ls = db.Queryable<ProbabilityRecords>().ToList();
+                }
+                int total = ls.Count;
+                ShowSearchResult(string.Format("查询成功, 共有 {0} 条记录。", CommonTool.FormatNumber(total)));
+                int count = ls.Where(x => Math.Abs(x.ProbabilityDifference) >= d && Math.Abs(x.ProbabilityDifference) <= d2).Count();
+                double p = (double)count / total;
+                label17.Text = string.Format("[{0}, {1}]: {2}", d, d2, (Math.Round(p, 4) * 100) + "%");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, Text, MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
     }

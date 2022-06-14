@@ -11,38 +11,42 @@ namespace Probability
     /// </summary>
     public class ProbabilityTool
     {
-        public static readonly int RandomMinVal = 10000;
-        public static readonly int RandomMaxVal = 100000;
+        public static readonly int RandomStsrtNum = 10000;
+        public static readonly int RandomLength = 1000000;
         public static readonly int DecaimalPointSize = 4;
 
 
-        private static int MakeRandom()
+        private static int MakeRandom(int min, int max)
         {
             int code = Guid.NewGuid().GetHashCode();
             Random ran = new Random(code);
-            int val = ran.Next(RandomMinVal, RandomMaxVal);
+            int val = ran.Next(min, max);
             return val;
         }
 
         public static bool IsHit(double probability)
         {
-            double probability2 = Math.Round(probability, DecaimalPointSize);
-            if (probability > 0.5)
+            if (probability >= 1)
             {
-                probability2 = Math.Round(1 - probability2, DecaimalPointSize);
+                return true;
             }
-            int ran = MakeRandom();
-            int val = (int)(probability2 * RandomMaxVal);
-            double opportunity = ((double)(RandomMaxVal - RandomMinVal)) / val;
-            int opportunity2 = (int)Math.Round(opportunity);
-            int remainder = (ran - RandomMinVal) % opportunity2;
-            if (probability < 0.5)
+            else if (probability <= 0)
             {
-                return remainder == 0;
+                return false;
             }
             else
             {
-                return !(remainder == 0);
+                double probability2 = Math.Round(probability, DecaimalPointSize);
+                int num = Convert.ToInt32(RandomLength * probability2);
+                int random = MakeRandom(RandomStsrtNum, RandomStsrtNum + RandomLength - 1);
+                if (random <= num)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
     }

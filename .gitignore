@@ -10,3 +10,6 @@
 /Code/Probability.Service/bin
 /Code/Probability.Service/obj
 /Code/Probability.Service/Probability.Service.csproj.user
+/Code/Probability.Winform/obj
+/Code/Probability.Winform/bin
+/Code/Probability.Winform/Probability.Winform.csproj.user
