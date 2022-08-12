@@ -12,7 +12,7 @@ namespace Probability
     public class ProbabilityTool
     {
         public static readonly int RandomStsrtNum = 10000;
-        public static readonly int RandomLength = 1000000;
+        public static readonly int RandomLength = 100000;
         public static readonly int DecaimalPointSize = 4;
 
 
